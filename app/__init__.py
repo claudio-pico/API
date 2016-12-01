@@ -1,11 +1,20 @@
 from flask import Flask
+import json
+import procesos
 
 app = Flask(__name__)
 
 
 @app.route("/")
 def hello():
-    return "Hello World!"
+    data = {"api": "rest :)"}
+
+    return json.dumps(data)
+
+
+@app.route("/listarProcesos")
+def listarProcesos():
+   return json.dumps(procesos.listarProcesos())
 
 
 if __name__ == "__main__":
