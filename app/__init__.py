@@ -7,14 +7,13 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello():
-    data = {"api": "rest :)"}
-
+    data = procesos.listaProcesos()
     return json.dumps(data)
 
 
-@app.route("/listarProcesos")
-def listarProcesos():
-   return json.dumps(procesos.listarProcesos())
+# @app.route("/listarProcesos")
+# def listarProcesos():
+# return json.dumps(procesos.listarProcesos())
 
 
 if __name__ == "__main__":
