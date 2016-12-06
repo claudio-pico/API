@@ -1,5 +1,5 @@
 run:
-	python init.py
+	sudo python init.py
 
 clean:
 	rm ./app/*.pyc
