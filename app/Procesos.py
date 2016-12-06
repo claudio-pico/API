@@ -2,7 +2,7 @@ import json
 
 import datetime
 import psutil
-
+import Constantes
 
 def listaProcesos():
     data = []
@@ -36,10 +36,55 @@ def listaProcesos():
         proceso["Usuario"] = process.username()
 
         # Nombre del Proceso
-        proceso["Nombre"] = process.name()
+        proceso["Name"] = process.name()
 
         # ID del porceso
         proceso["PID"] = process.pid
         listProcesos.append(proceso)
     jsonProcesos = {"Procesos": listProcesos}
     return jsonProcesos
+
+def matarProcesos(pid):
+
+    proceso = {}
+    for process in psutil.process_iter():
+          if process.pid == pid:
+            if process.username()=='root':
+                return Constantes.noTienePermiso
+            proceso["Name"]=process.name()
+            proceso["PID"] = process.pid
+            gv=process.kill()
+            print(gv)
+            return proceso
+
+    return Constantes.noExistePorceso
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
