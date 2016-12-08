@@ -1,8 +1,9 @@
-import json
-
 import datetime
 import psutil
 import Constantes
+from multiprocessing import Process
+import commands
+import os
 
 
 def listaProcesos():
@@ -52,8 +53,8 @@ def matarProcesos(pid):
     proceso = {}
     for process in psutil.process_iter():
         if process.pid == pid:
-         #   if process.username() == 'root':
-         #      return Constantes.noTienePermiso
+            #   if process.username() == 'root':
+            #      return Constantes.noTienePermiso
             proceso["Name"] = process.name()
             proceso["PID"] = process.pid
             process.kill()
@@ -74,17 +75,10 @@ def repriorizarProceso(pid, NI):
     return Constantes.noExistePorceso
 
 
+def firefox():
+     text = commands.getoutput('firefox /usr/lib/firefox')
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+def lanzarProcesos(programa):
+    p = Process(target=firefox)
+    p.start()
+    return

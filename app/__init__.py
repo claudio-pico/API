@@ -16,7 +16,7 @@ def listar():
 @app.route('/Process/<int:pid>', methods=['DELETE'])
 def matar(pid):
     data = Procesos.matarProcesos(pid)
-    if data == Constantes.noExistePorceso or data == Constantes.noTienePermiso:
+    if data == Constantes.noExistePorceso:
         mensaje = {'Mensaje': data, 'PID': pid}
         return make_response(json.dumps(mensaje), 404)
 
@@ -25,8 +25,8 @@ def matar(pid):
 
 @app.route("/Process/<int:pid>/<string:NI>", methods=['PUT'])
 def repriorizar(pid, NI):
-    intNI=int(NI)
-    if intNI<-20 or intNI>20:
+    intNI = int(NI)
+    if intNI < -20 or intNI > 20:
         mensaje = {'Mensaje': 'prioridades -20 hasta 20', 'PID': pid}
         return make_response(json.dumps(mensaje), 404)
     data = Procesos.repriorizarProceso(pid, intNI)
@@ -35,6 +35,13 @@ def repriorizar(pid, NI):
         return make_response(json.dumps(mensaje), 404)
 
     return json.dumps(data)
+
+
+@app.route("/Process/<string:programa>", methods=['POST'])
+def lanzar(programa):
+    data = Procesos.lanzarProcesos(programa)
+    mensaje = {'Porceso': programa}
+    return json.dumps(mensaje)
 
 
 if __name__ == "__main__":
