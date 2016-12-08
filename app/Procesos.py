@@ -45,7 +45,7 @@ def listaProcesos():
         # ID del porceso
         proceso["PID"] = process.pid
         listProcesos.append(proceso)
-    jsonProcesos = {"Procesos": listProcesos}
+    jsonProcesos = {"Process": listProcesos}
     return jsonProcesos
 
 
