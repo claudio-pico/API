@@ -6,45 +6,48 @@ import commands
 import os
 
 
-def listaProcesos():
+def listaProcesos(pid=None):
     data = []
     listProcesos = []
     for process in psutil.process_iter():
-        proceso = {}
+        if pid is None or process.pid == pid:
+            proceso = {}
 
-        proceso["Ni"] = process.nice()
+            proceso["Ni"] = process.nice()
 
-        proceso["TIME"] = process.cpu_times()[1]
+            proceso["TIME"] = process.cpu_times()[1]
 
-        proceso["START"] = datetime.datetime.fromtimestamp(process.create_time()).strftime("%Y-%m-%d %H:%M:%S")
+            proceso["START"] = datetime.datetime.fromtimestamp(process.create_time()).strftime("%Y-%m-%d %H:%M:%S")
 
-        # terminal que controla el proceso (tty)
-        proceso["TTY"] = process.terminal()
+            # terminal que controla el proceso (tty)
+            proceso["TTY"] = process.terminal()
 
-        proceso["%CPU"] = "{0:.2f}".format(process.cpu_percent())
+            proceso["%CPU"] = "{0:.2f}".format(process.cpu_percent())
 
-        # porcentaje de memoria fisica utilizada
-        proceso["%MEM"] = "{0:.2f}".format(process.memory_percent())
+            # porcentaje de memoria fisica utilizada
+            proceso["%MEM"] = "{0:.2f}".format(process.memory_percent())
 
-        # resident set size, es la cantidad de memoria fisica no swappeada que la tareia a utilizado(kbit)
-        proceso["RSS"] = process.memory_info()[0]
+            # resident set size, es la cantidad de memoria fisica no swappeada que la tareia a utilizado(kbit)
+            proceso["RSS"] = process.memory_info()[0]
 
-        # memoria virtual del proceso medida en KiB
-        proceso["VSZ"] = process.memory_info()[1]
+            # memoria virtual del proceso medida en KiB
+            proceso["VSZ"] = process.memory_info()[1]
 
-        proceso["status"] = str(process.status())
+            proceso["status"] = str(process.status())
 
-        proceso["isRunning"] = process.is_running()
+            proceso["isRunning"] = process.is_running()
 
-        # usuario con el que se ejecuta el proceso
-        proceso["Usuario"] = process.username()
+            # usuario con el que se ejecuta el proceso
+            proceso["Usuario"] = process.username()
 
-        # Nombre del Proceso
-        proceso["Name"] = process.name()
+            # Nombre del Proceso
+            proceso["Name"] = process.name()
 
-        # ID del porceso
-        proceso["PID"] = process.pid
-        listProcesos.append(proceso)
+            # ID del porceso
+            proceso["PID"] = process.pid
+            listProcesos.append(proceso)
+    if len(listProcesos)==0:
+       return Constantes.noExistePorceso
     jsonProcesos = {"Process": listProcesos}
     return jsonProcesos
 
