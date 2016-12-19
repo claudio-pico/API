@@ -82,6 +82,6 @@ def firefox():
      text = commands.getoutput('firefox /usr/lib/firefox')
 
 def lanzarProcesos(programa):
-    p = Process(target=firefox)
-    p.start()
+    if programa=='firefox':
+        p = Process(target=firefox)
     return
